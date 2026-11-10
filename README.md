@@ -2,7 +2,7 @@
 
 # Codex Web Search
 
-**使用自己的 Codex 认证、，伪造 Codex 发出的请求，调用 Codex 的 web_search 功能**
+**使用你自己的 Codex 凭据，模拟 Codex 客户端请求，直接调用网页搜索功能**
 
 可以作为其他 agent 的搜索工具使用或个人搜索引擎
 
