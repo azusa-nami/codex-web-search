@@ -47,11 +47,9 @@ export CODEX_AUTH_FILE="$HOME/.codex/auth.json"
 codex-web-search --query '2026年11月10日上海天气'
 ```
 
-每次调用向 stdout 输出一个 JSON 对象；失败时以非零状态退出，并向 stderr 输出错误。
-
 ## 使用示例
 
-以下示例均假设已配置 `CODEX_AUTH_FILE` 或 `CODEX_ACCESS_TOKEN`。
+以下示例均假设认证已配置成功
 
 ### 搜索与域名过滤
 
@@ -77,7 +75,7 @@ JSON 中的参数含义如下：
 | `domains` | 限定搜索的网站域名；不需要限制网站时，可以省略这个字段。 |
 | `response_length` | 返回结果的长度；这里用 `short` 请求简短结果。 |
 
-`--session-id shanghai-ev-policy` 给这次搜索指定一个会话 ID，后续打开结果或查找文本时继续使用它即可。
+`--session-id` 给这次搜索指定一个会话 ID，后续打开结果或查找文本时继续使用它即可。
 
 ### 打开结果与查找文本
 
@@ -93,7 +91,7 @@ printf '%s\n' '{"find":[{"ref_id":"turn0search0","pattern":"申请条件"}]}' |
 
 未指定会话 ID 时，程序会自动生成 UUID，并在结果中返回。
 
-### 接入其他 Agent
+### 在其他程序中调用
 
 任何支持启动子进程的程序都可以调用此工具。下面的 Python 示例继承父进程中的认证环境变量，并读取明文结果：
 
@@ -114,7 +112,7 @@ print(response["output"])
 
 ## 认证配置
 
-本项目保证不会上传用户 Codex 的认证信息。
+本项目承诺不会上传用户 Codex 的认证信息。
 
 ### 使用 Codex 登录文件
 
@@ -179,7 +177,7 @@ codex-web-search --query '上海新能源汽车补贴政策'
 
 `live` 允许实时联网，`cached` 请求缓存模式，`indexed` 请求索引模式；实际行为和模型可用性由搜索服务决定。
 
-## 接口与限制
+## 使用须知
 
 本项目调用的是 Codex 使用的 `alpha/search` 接口，不是公开 Responses API 中的托管 `web_search`。这不是 OpenAI 官方 SDK，因此不保证该接口未来保持兼容。
 

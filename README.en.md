@@ -169,53 +169,15 @@ The program does not decrypt `encrypted_output` or automatically submit it in su
 | `--session-id` | Associate search, open, and find requests. | Generated UUID |
 | `--model` | Model name submitted to the search service. | `gpt-6-astra` |
 | `--mode` | `live`, `cached`, or `indexed`. | `live` |
-| `--max-output-tokens` | Requested upstream output token limit; must be positive. | `10000` |
-| `--base-url` | Base URL of a compatible service; `alpha/search` is appended. | `https://chatgpt.com/backend-api/codex/` |
-| `--help` | Display help. | — |
+
 
 `live` allows live web access, `cached` requests cached access, and `indexed` requests indexed access. Actual behavior and model availability depend on the search service.
 
-## Rust library
-
-Add the project as a path dependency in another Rust project:
-
-```toml
-[dependencies]
-codex-web-search = { path = "/path/to/codex-web-search" }
-```
-
-The main call sequence is `SearchAuth::from_access_token` or `from_auth_json` → `SearchClient::new` → `SearchRequest::new` → `client.search(&request).await`.
-
-`SearchRequest` exposes `mode`, `max_output_tokens`, and optional search context through `input`. The library returns a `SearchResponse`; callers retain the session ID in their request, while the CLI adds it to its JSON output. See [src/lib.rs](src/lib.rs) for the API and [src/auth.rs](src/auth.rs) for authentication handling.
-
-## Development
-
-```sh
-cargo build --locked
-cargo test --locked
-```
-
-| File | Responsibility |
-| --- | --- |
-| [src/main.rs](src/main.rs) | CLI arguments, stdin, and JSON output. |
-| [src/auth.rs](src/auth.rs) | Authentication input, bearer tokens, and account routing headers. |
-| [src/lib.rs](src/lib.rs) | Request construction, HTTP calls, and response parsing. |
-| [tests/search.rs](tests/search.rs) | Request and response tests using fake credentials and local mock services. |
-
-The project uses general-purpose third-party Rust libraries and can be built and run without installing Codex. File authentication requires existing credentials supplied by the caller.
 
 ## Endpoint and implementation limits
 
 This project calls the `alpha/search` endpoint used by Codex, rather than the hosted `web_search` tool in the public Responses API. It is not an official OpenAI SDK and does not guarantee future endpoint compatibility. Account permissions, availability, and billing are controlled by the upstream service. The project does not report per-search credit usage, and public API search prices should not be assumed to apply.
 
-Current implementation limits:
-
-- Requests and responses are each limited to 256 KiB, with a 60-second request timeout.
-- POST requests are not retried automatically, and HTTP redirects are not followed.
-- HTTPS is required, except for loopback HTTP addresses used by local compatible services or mocks.
-- Codex enterprise configuration, managed network routing, and local conversation history are not loaded.
-
-Treat authentication files and access tokens as credentials. Do not commit them or include them in search content.
 
 ## License
 
