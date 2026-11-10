@@ -1,0 +1,21 @@
+[package]
+name = "codex-web-search"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+
+# This directory can be copied out of Codex and built on its own.
+[dependencies]
+anyhow = "1"
+base64 = "0.22"
+clap = { version = "4", features = ["derive", "env"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+uuid = { version = "1", features = ["v4"] }
+
+[dev-dependencies]
+insta = "1"
+pretty_assertions = "1"
+wiremock = "0.6"

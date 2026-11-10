@@ -1,0 +1,40 @@
+---
+source: src/main_tests.rs
+expression: help
+---
+Search using a caller-provided Codex access token. Reads web.run JSON from stdin unless --query is provided.
+
+Usage: codex-web-search [OPTIONS]
+
+Options:
+      --auth-file <AUTH_FILE>
+          Read tokens from this Codex auth.json instead of CODEX_ACCESS_TOKEN
+          
+          [env: CODEX_AUTH_FILE=]
+
+      --account-id <ACCOUNT_ID>
+          Optional workspace routing hint; otherwise read from the token/auth file
+          
+          [env: CHATGPT_ACCOUNT_ID=]
+
+      --query <QUERY>
+          Search a single query instead of reading command JSON from stdin
+
+      --session-id <SESSION_ID>
+          Reuse this ID when opening a search result from an earlier invocation
+
+      --model <MODEL>
+          [default: gpt-6-astra]
+
+      --mode <MODE>
+          [default: live]
+          [possible values: live, cached, indexed]
+
+      --max-output-tokens <MAX_OUTPUT_TOKENS>
+          [default: 10000]
+
+      --base-url <BASE_URL>
+          [default: https://chatgpt.com/backend-api/codex/]
+
+  -h, --help
+          Print help
